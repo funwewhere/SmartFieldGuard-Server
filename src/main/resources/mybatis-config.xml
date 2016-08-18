@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.1//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+	    <!-- 开启全局性设置懒加载 -->
+	    <setting name="lazyLoadingEnabled" value="true"/>
+	    <!-- 开启按需加载 -->
+	    <setting name="aggressiveLazyLoading" value="false"/>
+	</settings>
+    <typeAliases>
+        <package name="com.szty.bean,com.szty.bean.*"/>
+    </typeAliases>
+    
+    <!-- 配置数据库字段对应的枚举类 -->
+    <typeHandlers>
+    	<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.szty.enums.UserRole"/>
+    	<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.szty.enums.UserStatus"/>
+    	<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.szty.enums.PostStatus"/>
+    	<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.szty.enums.TaskType"/>
+    	<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.szty.enums.FieldStatus"/>
+    	<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.szty.enums.MessageType"/>
+    	<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.szty.enums.PostType"/>
+    	<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.szty.enums.InformType"/>
+    </typeHandlers>
+</configuration>

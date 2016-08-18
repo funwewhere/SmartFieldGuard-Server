@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.TaskInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.szty.bean.TaskInfo" >
+    <id column="task_no" property="taskNo" jdbcType="VARCHAR" />
+    <result column="crop_no" property="cropNo" jdbcType="VARCHAR" />
+    <result column="task_name" property="taskName" jdbcType="VARCHAR" />
+    <result column="task_formula" property="taskFormula" jdbcType="VARCHAR" />
+    <result column="last_task" property="lastTask" jdbcType="VARCHAR" />
+    <result column="task_type" property="taskType" jdbcType="VARCHAR" />
+    <result column="start" property="start" jdbcType="INTEGER" />
+    <result column="use_days" property="useDays" jdbcType="INTEGER" />
+    <result column="period_no" property="periodNo" jdbcType="VARCHAR" />
+    <result column="attention" property="attention" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    task_no, crop_no, task_name, task_formula, last_task, task_type, start, use_days, 
+    period_no, attention
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_task_info
+    where task_no = #{taskNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_task_info
+    where task_no = #{taskNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.szty.bean.TaskInfo" >
+    insert into t_task_info (task_no, crop_no, task_name, 
+      task_formula, last_task, task_type, 
+      start, use_days, period_no, 
+      attention)
+    values (#{taskNo,jdbcType=VARCHAR}, #{cropNo,jdbcType=VARCHAR}, #{taskName,jdbcType=VARCHAR}, 
+      #{taskFormula,jdbcType=VARCHAR}, #{lastTask,jdbcType=VARCHAR}, #{taskType,jdbcType=VARCHAR}, 
+      #{start,jdbcType=INTEGER}, #{useDays,jdbcType=INTEGER}, #{periodNo,jdbcType=VARCHAR}, 
+      #{attention,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.szty.bean.TaskInfo" >
+    insert into t_task_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taskNo != null" >
+        task_no,
+      </if>
+      <if test="cropNo != null" >
+        crop_no,
+      </if>
+      <if test="taskName != null" >
+        task_name,
+      </if>
+      <if test="taskFormula != null" >
+        task_formula,
+      </if>
+      <if test="lastTask != null" >
+        last_task,
+      </if>
+      <if test="taskType != null" >
+        task_type,
+      </if>
+      <if test="start != null" >
+        start,
+      </if>
+      <if test="useDays != null" >
+        use_days,
+      </if>
+      <if test="periodNo != null" >
+        period_no,
+      </if>
+      <if test="attention != null" >
+        attention,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taskNo != null" >
+        #{taskNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cropNo != null" >
+        #{cropNo,jdbcType=VARCHAR},
+      </if>
+      <if test="taskName != null" >
+        #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskFormula != null" >
+        #{taskFormula,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTask != null" >
+        #{lastTask,jdbcType=VARCHAR},
+      </if>
+      <if test="taskType != null" >
+        #{taskType,jdbcType=VARCHAR},
+      </if>
+      <if test="start != null" >
+        #{start,jdbcType=INTEGER},
+      </if>
+      <if test="useDays != null" >
+        #{useDays,jdbcType=INTEGER},
+      </if>
+      <if test="periodNo != null" >
+        #{periodNo,jdbcType=VARCHAR},
+      </if>
+      <if test="attention != null" >
+        #{attention,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.szty.bean.TaskInfo" >
+    update t_task_info
+    <set >
+      <if test="cropNo != null" >
+        crop_no = #{cropNo,jdbcType=VARCHAR},
+      </if>
+      <if test="taskName != null" >
+        task_name = #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskFormula != null" >
+        task_formula = #{taskFormula,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTask != null" >
+        last_task = #{lastTask,jdbcType=VARCHAR},
+      </if>
+      <if test="taskType != null" >
+        task_type = #{taskType,jdbcType=VARCHAR},
+      </if>
+      <if test="start != null" >
+        start = #{start,jdbcType=INTEGER},
+      </if>
+      <if test="useDays != null" >
+        use_days = #{useDays,jdbcType=INTEGER},
+      </if>
+      <if test="periodNo != null" >
+        period_no = #{periodNo,jdbcType=VARCHAR},
+      </if>
+      <if test="attention != null" >
+        attention = #{attention,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where task_no = #{taskNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.szty.bean.TaskInfo" >
+    update t_task_info
+    set crop_no = #{cropNo,jdbcType=VARCHAR},
+      task_name = #{taskName,jdbcType=VARCHAR},
+      task_formula = #{taskFormula,jdbcType=VARCHAR},
+      last_task = #{lastTask,jdbcType=VARCHAR},
+      task_type = #{taskType,jdbcType=VARCHAR},
+      start = #{start,jdbcType=INTEGER},
+      use_days = #{useDays,jdbcType=INTEGER},
+      period_no = #{periodNo,jdbcType=VARCHAR},
+      attention = #{attention,jdbcType=VARCHAR}
+    where task_no = #{taskNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

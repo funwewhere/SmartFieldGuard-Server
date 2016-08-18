@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.CropPeriodMapper" >
+  <resultMap id="BaseResultMap" type="com.szty.bean.CropPeriod" >
+    <id column="period_no" property="periodNo" jdbcType="VARCHAR" />
+    <id column="crop_no" property="cropNo" jdbcType="VARCHAR" />
+    <result column="period_name" property="periodName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    period_no, crop_no, period_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_crop_period
+    where period_no = #{periodNo,jdbcType=VARCHAR}
+      and crop_no = #{cropNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from t_crop_period
+    where period_no = #{periodNo,jdbcType=VARCHAR}
+      and crop_no = #{cropNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.szty.bean.CropPeriod" >
+    insert into t_crop_period (period_no, crop_no, period_name
+      )
+    values (#{periodNo,jdbcType=VARCHAR}, #{cropNo,jdbcType=VARCHAR}, #{periodName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.szty.bean.CropPeriod" >
+    insert into t_crop_period
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="periodNo != null" >
+        period_no,
+      </if>
+      <if test="cropNo != null" >
+        crop_no,
+      </if>
+      <if test="periodName != null" >
+        period_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="periodNo != null" >
+        #{periodNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cropNo != null" >
+        #{cropNo,jdbcType=VARCHAR},
+      </if>
+      <if test="periodName != null" >
+        #{periodName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.szty.bean.CropPeriod" >
+    update t_crop_period
+    <set >
+      <if test="periodName != null" >
+        period_name = #{periodName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where period_no = #{periodNo,jdbcType=VARCHAR}
+      and crop_no = #{cropNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.szty.bean.CropPeriod" >
+    update t_crop_period
+    set period_name = #{periodName,jdbcType=VARCHAR}
+    where period_no = #{periodNo,jdbcType=VARCHAR}
+      and crop_no = #{cropNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

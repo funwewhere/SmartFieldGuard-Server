@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.SysTableKeyMapper" >
+  <resultMap id="BaseResultMap" type="com.szty.bean.SysTableKey" >
+    <id column="table_name" property="tableName" jdbcType="VARCHAR" />
+    <result column="table_key" property="tableKey" jdbcType="VARCHAR" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    table_name, table_key, memo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_table_key
+    where table_name = #{tableName,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_sys_table_key
+    where table_name = #{tableName,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.szty.bean.SysTableKey" >
+    insert into t_sys_table_key (table_name, table_key, memo
+      )
+    values (#{tableName,jdbcType=VARCHAR}, #{tableKey,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.szty.bean.SysTableKey" >
+    insert into t_sys_table_key
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tableName != null" >
+        table_name,
+      </if>
+      <if test="tableKey != null" >
+        table_key,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tableName != null" >
+        #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="tableKey != null" >
+        #{tableKey,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.szty.bean.SysTableKey" >
+    update t_sys_table_key
+    <set >
+      <if test="tableKey != null" >
+        table_key = #{tableKey,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where table_name = #{tableName,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.szty.bean.SysTableKey" >
+    update t_sys_table_key
+    set table_key = #{tableKey,jdbcType=VARCHAR},
+      memo = #{memo,jdbcType=VARCHAR}
+    where table_name = #{tableName,jdbcType=VARCHAR}
+  </update>
+</mapper>

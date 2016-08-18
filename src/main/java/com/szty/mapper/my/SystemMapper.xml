@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.my.SystemMapper">
+	<select id="getAndLockTableKey" parameterType="String" resultType="String" flushCache="true">
+		SELECT table_key FROM t_sys_table_key WHERE table_name = #{tableName} FOR UPDATE
+	</select>
+	
+	<update id="updateTableKey" parameterType="Map">
+		UPDATE t_sys_table_key set table_key = #{key} WHERE table_name = #{tableName} 
+	</update>
+</mapper>

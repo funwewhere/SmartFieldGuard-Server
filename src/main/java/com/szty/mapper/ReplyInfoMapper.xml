@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.ReplyInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.szty.bean.ReplyInfo" >
+    <id column="post_no" property="postNo" jdbcType="VARCHAR" />
+    <id column="reply_sn" property="replySn" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="images" property="images" jdbcType="VARCHAR" />
+    <result column="agree_num" property="agreeNum" jdbcType="INTEGER" />
+    <result column="reply_date" property="replyDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.szty.bean.ReplyInfo" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="agree_users" property="agreeUsers" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    post_no, reply_sn, user_id, images, agree_num, reply_date
+  </sql>
+  <sql id="Blob_Column_List" >
+    content, agree_users
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_reply_info
+    where post_no = #{postNo,jdbcType=VARCHAR}
+      and reply_sn = #{replySn,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from t_reply_info
+    where post_no = #{postNo,jdbcType=VARCHAR}
+      and reply_sn = #{replySn,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.szty.bean.ReplyInfo" >
+    insert into t_reply_info (post_no, reply_sn, user_id, 
+      images, agree_num, reply_date, 
+      content, agree_users)
+    values (#{postNo,jdbcType=VARCHAR}, #{replySn,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, 
+      #{images,jdbcType=VARCHAR}, #{agreeNum,jdbcType=INTEGER}, #{replyDate,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=LONGVARCHAR}, #{agreeUsers,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.szty.bean.ReplyInfo" >
+    insert into t_reply_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="postNo != null" >
+        post_no,
+      </if>
+      <if test="replySn != null" >
+        reply_sn,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="images != null" >
+        images,
+      </if>
+      <if test="agreeNum != null" >
+        agree_num,
+      </if>
+      <if test="replyDate != null" >
+        reply_date,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="agreeUsers != null" >
+        agree_users,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="postNo != null" >
+        #{postNo,jdbcType=VARCHAR},
+      </if>
+      <if test="replySn != null" >
+        #{replySn,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="images != null" >
+        #{images,jdbcType=VARCHAR},
+      </if>
+      <if test="agreeNum != null" >
+        #{agreeNum,jdbcType=INTEGER},
+      </if>
+      <if test="replyDate != null" >
+        #{replyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="agreeUsers != null" >
+        #{agreeUsers,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.szty.bean.ReplyInfo" >
+    update t_reply_info
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="images != null" >
+        images = #{images,jdbcType=VARCHAR},
+      </if>
+      <if test="agreeNum != null" >
+        agree_num = #{agreeNum,jdbcType=INTEGER},
+      </if>
+      <if test="replyDate != null" >
+        reply_date = #{replyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="agreeUsers != null" >
+        agree_users = #{agreeUsers,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where post_no = #{postNo,jdbcType=VARCHAR}
+      and reply_sn = #{replySn,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.szty.bean.ReplyInfo" >
+    update t_reply_info
+    set user_id = #{userId,jdbcType=VARCHAR},
+      images = #{images,jdbcType=VARCHAR},
+      agree_num = #{agreeNum,jdbcType=INTEGER},
+      reply_date = #{replyDate,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR},
+      agree_users = #{agreeUsers,jdbcType=LONGVARCHAR}
+    where post_no = #{postNo,jdbcType=VARCHAR}
+      and reply_sn = #{replySn,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.szty.bean.ReplyInfo" >
+    update t_reply_info
+    set user_id = #{userId,jdbcType=VARCHAR},
+      images = #{images,jdbcType=VARCHAR},
+      agree_num = #{agreeNum,jdbcType=INTEGER},
+      reply_date = #{replyDate,jdbcType=TIMESTAMP}
+    where post_no = #{postNo,jdbcType=VARCHAR}
+      and reply_sn = #{replySn,jdbcType=INTEGER}
+  </update>
+</mapper>

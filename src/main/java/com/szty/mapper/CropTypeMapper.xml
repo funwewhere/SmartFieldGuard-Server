@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.CropTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.szty.bean.CropType" >
+    <id column="crop_type_no" property="cropTypeNo" jdbcType="VARCHAR" />
+    <result column="crop_type_name" property="cropTypeName" jdbcType="VARCHAR" />
+    <result column="parent_type" property="parentType" jdbcType="VARCHAR" />
+    <result column="is_last" property="isLast" jdbcType="BIT" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    crop_type_no, crop_type_name, parent_type, is_last, image_url
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_crop_type
+    where crop_type_no = #{cropTypeNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_crop_type
+    where crop_type_no = #{cropTypeNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.szty.bean.CropType" >
+    insert into t_crop_type (crop_type_no, crop_type_name, parent_type, 
+      is_last, image_url)
+    values (#{cropTypeNo,jdbcType=VARCHAR}, #{cropTypeName,jdbcType=VARCHAR}, #{parentType,jdbcType=VARCHAR}, 
+      #{isLast,jdbcType=BIT}, #{imageUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.szty.bean.CropType" >
+    insert into t_crop_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cropTypeNo != null" >
+        crop_type_no,
+      </if>
+      <if test="cropTypeName != null" >
+        crop_type_name,
+      </if>
+      <if test="parentType != null" >
+        parent_type,
+      </if>
+      <if test="isLast != null" >
+        is_last,
+      </if>
+      <if test="imageUrl != null" >
+        image_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cropTypeNo != null" >
+        #{cropTypeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cropTypeName != null" >
+        #{cropTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentType != null" >
+        #{parentType,jdbcType=VARCHAR},
+      </if>
+      <if test="isLast != null" >
+        #{isLast,jdbcType=BIT},
+      </if>
+      <if test="imageUrl != null" >
+        #{imageUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.szty.bean.CropType" >
+    update t_crop_type
+    <set >
+      <if test="cropTypeName != null" >
+        crop_type_name = #{cropTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentType != null" >
+        parent_type = #{parentType,jdbcType=VARCHAR},
+      </if>
+      <if test="isLast != null" >
+        is_last = #{isLast,jdbcType=BIT},
+      </if>
+      <if test="imageUrl != null" >
+        image_url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where crop_type_no = #{cropTypeNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.szty.bean.CropType" >
+    update t_crop_type
+    set crop_type_name = #{cropTypeName,jdbcType=VARCHAR},
+      parent_type = #{parentType,jdbcType=VARCHAR},
+      is_last = #{isLast,jdbcType=BIT},
+      image_url = #{imageUrl,jdbcType=VARCHAR}
+    where crop_type_no = #{cropTypeNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

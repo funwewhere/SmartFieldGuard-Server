@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.FieldHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.szty.bean.FieldHistory" >
+    <id column="field_history_no" property="fieldHistoryNo" jdbcType="INTEGER" />
+    <result column="field_no" property="fieldNo" jdbcType="VARCHAR" />
+    <result column="crop_no" property="cropNo" jdbcType="VARCHAR" />
+    <result column="record_time" property="recordTime" jdbcType="TIMESTAMP" />
+    <result column="soil_t" property="soilT" jdbcType="DOUBLE" />
+    <result column="soil_w" property="soilW" jdbcType="DOUBLE" />
+    <result column="air_t" property="airT" jdbcType="DOUBLE" />
+    <result column="air_w" property="airW" jdbcType="DOUBLE" />
+    <result column="light" property="light" jdbcType="DOUBLE" />
+    <result column="CO2" property="co2" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    field_history_no, field_no, crop_no, record_time, soil_t, soil_w, air_t, air_w, light, 
+    CO2
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_field_history
+    where field_history_no = #{fieldHistoryNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_field_history
+    where field_history_no = #{fieldHistoryNo,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.szty.bean.FieldHistory" >
+    insert into t_field_history (field_history_no, field_no, crop_no, 
+      record_time, soil_t, soil_w, 
+      air_t, air_w, light, CO2
+      )
+    values (#{fieldHistoryNo,jdbcType=INTEGER}, #{fieldNo,jdbcType=VARCHAR}, #{cropNo,jdbcType=VARCHAR}, 
+      #{recordTime,jdbcType=TIMESTAMP}, #{soilT,jdbcType=DOUBLE}, #{soilW,jdbcType=DOUBLE}, 
+      #{airT,jdbcType=DOUBLE}, #{airW,jdbcType=DOUBLE}, #{light,jdbcType=DOUBLE}, #{co2,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.szty.bean.FieldHistory" >
+    insert into t_field_history
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fieldHistoryNo != null" >
+        field_history_no,
+      </if>
+      <if test="fieldNo != null" >
+        field_no,
+      </if>
+      <if test="cropNo != null" >
+        crop_no,
+      </if>
+      <if test="recordTime != null" >
+        record_time,
+      </if>
+      <if test="soilT != null" >
+        soil_t,
+      </if>
+      <if test="soilW != null" >
+        soil_w,
+      </if>
+      <if test="airT != null" >
+        air_t,
+      </if>
+      <if test="airW != null" >
+        air_w,
+      </if>
+      <if test="light != null" >
+        light,
+      </if>
+      <if test="co2 != null" >
+        CO2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fieldHistoryNo != null" >
+        #{fieldHistoryNo,jdbcType=INTEGER},
+      </if>
+      <if test="fieldNo != null" >
+        #{fieldNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cropNo != null" >
+        #{cropNo,jdbcType=VARCHAR},
+      </if>
+      <if test="recordTime != null" >
+        #{recordTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="soilT != null" >
+        #{soilT,jdbcType=DOUBLE},
+      </if>
+      <if test="soilW != null" >
+        #{soilW,jdbcType=DOUBLE},
+      </if>
+      <if test="airT != null" >
+        #{airT,jdbcType=DOUBLE},
+      </if>
+      <if test="airW != null" >
+        #{airW,jdbcType=DOUBLE},
+      </if>
+      <if test="light != null" >
+        #{light,jdbcType=DOUBLE},
+      </if>
+      <if test="co2 != null" >
+        #{co2,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.szty.bean.FieldHistory" >
+    update t_field_history
+    <set >
+      <if test="fieldNo != null" >
+        field_no = #{fieldNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cropNo != null" >
+        crop_no = #{cropNo,jdbcType=VARCHAR},
+      </if>
+      <if test="recordTime != null" >
+        record_time = #{recordTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="soilT != null" >
+        soil_t = #{soilT,jdbcType=DOUBLE},
+      </if>
+      <if test="soilW != null" >
+        soil_w = #{soilW,jdbcType=DOUBLE},
+      </if>
+      <if test="airT != null" >
+        air_t = #{airT,jdbcType=DOUBLE},
+      </if>
+      <if test="airW != null" >
+        air_w = #{airW,jdbcType=DOUBLE},
+      </if>
+      <if test="light != null" >
+        light = #{light,jdbcType=DOUBLE},
+      </if>
+      <if test="co2 != null" >
+        CO2 = #{co2,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where field_history_no = #{fieldHistoryNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.szty.bean.FieldHistory" >
+    update t_field_history
+    set field_no = #{fieldNo,jdbcType=VARCHAR},
+      crop_no = #{cropNo,jdbcType=VARCHAR},
+      record_time = #{recordTime,jdbcType=TIMESTAMP},
+      soil_t = #{soilT,jdbcType=DOUBLE},
+      soil_w = #{soilW,jdbcType=DOUBLE},
+      air_t = #{airT,jdbcType=DOUBLE},
+      air_w = #{airW,jdbcType=DOUBLE},
+      light = #{light,jdbcType=DOUBLE},
+      CO2 = #{co2,jdbcType=DOUBLE}
+    where field_history_no = #{fieldHistoryNo,jdbcType=INTEGER}
+  </update>
+</mapper>

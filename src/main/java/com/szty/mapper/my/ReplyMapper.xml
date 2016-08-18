@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.my.ReplyMapper">
+    
+    <select id="getReplyList" parameterType="Map" resultType="com.szty.bean.my.VoReply">
+    	SELECT
+			post_no postNo,
+			reply_sn replySn,
+			t_reply.user_id userId,
+			username,
+			head_image headImage,
+			images,
+			agree_num agreeNum,
+			reply_date replyDate,
+			content,
+			agree_users agreeUsers
+		FROM
+			t_reply_info t_reply
+		LEFT JOIN t_user_info t_user ON t_reply.user_id = t_user.user_id
+		<where>
+			t_reply.post_no = #{postNo}
+			<if test="lastReplySn !=null">
+				AND t_reply.reply_sn > #{lastReplySn}
+			</if>
+		</where>
+		ORDER BY
+			reply_sn ASC
+		<if test="dataStart != null and pageCount != null">LIMIT #{dataStart},#{pageCount}</if>
+    </select>
+    
+    <select id="getAndLockAgreeUsers" parameterType="Map" resultType="String" flushCache="true">
+    	SELECT agree_users FROM t_reply_info WHERE post_no = #{postNo} AND reply_sn = #{replySn} FOR UPDATE
+    </select>
+    
+    <update id="updateReplyToBest" parameterType="Map">
+    	UPDATE t_reply_info SET reply_sn = '0' WHERE post_no = #{postNo} AND reply_sn = #{replySn}
+    </update>
+    
+    <select id="getAllReplyUsers" parameterType="String" resultType="String">
+		SELECT DISTINCT user_id FROM t_reply_info where post_no = #{postNo}
+	</select>
+	
+	<select id="getReplyInfo" parameterType="Map" resultType="com.szty.bean.my.VoReply">
+    	SELECT
+			post_no postNo,
+			reply_sn replySn,
+			t_reply.user_id userId,
+			username,
+			head_image headImage,
+			images,
+			agree_num agreeNum,
+			reply_date replyDate,
+			content,
+			agree_users agreeUsers
+		FROM
+			t_reply_info t_reply
+		LEFT JOIN t_user_info t_user ON t_reply.user_id = t_user.user_id
+		WHERE t_reply.post_no = #{postNo} AND t_reply.reply_sn = #{replySn}
+    </select>
+    
+</mapper>

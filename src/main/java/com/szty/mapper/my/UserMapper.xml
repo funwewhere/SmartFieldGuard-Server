@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.my.UserMapper">
+    
+    <select id="selectUserInfoByUsername" parameterType="String" resultType="com.szty.bean.UserInfo">
+    	select
+    		user_id userId,
+    		username,
+    		password,
+    		tel,
+    		status,
+			role,
+			head_image headImage
+		from t_user_info where username = #{username}
+    </select>
+    
+    <select id="selectUserInfoByTel" parameterType="String" resultType="com.szty.bean.UserInfo">
+    	select
+    		user_id userId,
+    		username,
+    		password,
+    		tel,
+    		status,
+			role,
+			head_image headImage
+		from t_user_info where tel = #{tel}
+    </select>
+    
+    <update id="updateUserLock" parameterType="map">
+    	update t_user_info set status = #{status} where user_id = #{userId}
+    </update>
+    
+    <select id="selectUserCount" resultType="int">
+    	select count(*) from t_user_info where role = '0'
+    </select>
+    
+    <select id="selectUserInfo" parameterType="map" resultType="com.szty.bean.UserInfo">
+    	select
+    		user_id userId,
+    		username,
+    		password,
+    		tel,
+    		status,
+			role,
+			register_date registerDate
+		from t_user_info where role = '0'
+		LIMIT #{start},#{pageCount}
+    </select>
+</mapper>

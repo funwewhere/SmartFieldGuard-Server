@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.PostInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.szty.bean.PostInfo" >
+    <id column="post_no" property="postNo" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="parent_area" property="parentArea" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="images" property="images" jdbcType="VARCHAR" />
+    <result column="best_reply_no" property="bestReplyNo" jdbcType="VARCHAR" />
+    <result column="reply_num" property="replyNum" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="last_reply_date" property="lastReplyDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.szty.bean.PostInfo" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    post_no, user_id, type, parent_area, title, images, best_reply_no, reply_num, status, 
+    create_date, last_reply_date
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_post_info
+    where post_no = #{postNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_post_info
+    where post_no = #{postNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.szty.bean.PostInfo" >
+    insert into t_post_info (post_no, user_id, type, 
+      parent_area, title, images, 
+      best_reply_no, reply_num, status, 
+      create_date, last_reply_date, content
+      )
+    values (#{postNo,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{parentArea,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{images,jdbcType=VARCHAR}, 
+      #{bestReplyNo,jdbcType=VARCHAR}, #{replyNum,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{lastReplyDate,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.szty.bean.PostInfo" >
+    insert into t_post_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="postNo != null" >
+        post_no,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="parentArea != null" >
+        parent_area,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="images != null" >
+        images,
+      </if>
+      <if test="bestReplyNo != null" >
+        best_reply_no,
+      </if>
+      <if test="replyNum != null" >
+        reply_num,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="lastReplyDate != null" >
+        last_reply_date,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="postNo != null" >
+        #{postNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="parentArea != null" >
+        #{parentArea,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="images != null" >
+        #{images,jdbcType=VARCHAR},
+      </if>
+      <if test="bestReplyNo != null" >
+        #{bestReplyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="replyNum != null" >
+        #{replyNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastReplyDate != null" >
+        #{lastReplyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.szty.bean.PostInfo" >
+    update t_post_info
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="parentArea != null" >
+        parent_area = #{parentArea,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="images != null" >
+        images = #{images,jdbcType=VARCHAR},
+      </if>
+      <if test="bestReplyNo != null" >
+        best_reply_no = #{bestReplyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="replyNum != null" >
+        reply_num = #{replyNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastReplyDate != null" >
+        last_reply_date = #{lastReplyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where post_no = #{postNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.szty.bean.PostInfo" >
+    update t_post_info
+    set user_id = #{userId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      parent_area = #{parentArea,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      images = #{images,jdbcType=VARCHAR},
+      best_reply_no = #{bestReplyNo,jdbcType=VARCHAR},
+      reply_num = #{replyNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      last_reply_date = #{lastReplyDate,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where post_no = #{postNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.szty.bean.PostInfo" >
+    update t_post_info
+    set user_id = #{userId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      parent_area = #{parentArea,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      images = #{images,jdbcType=VARCHAR},
+      best_reply_no = #{bestReplyNo,jdbcType=VARCHAR},
+      reply_num = #{replyNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      last_reply_date = #{lastReplyDate,jdbcType=TIMESTAMP}
+    where post_no = #{postNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

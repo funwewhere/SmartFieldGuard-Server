@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.CropVariableMapper" >
+  <resultMap id="BaseResultMap" type="com.szty.bean.CropVariable" >
+    <id column="crop_no" property="cropNo" jdbcType="VARCHAR" />
+    <id column="variable_name" property="variableName" jdbcType="VARCHAR" />
+    <id column="period_no" property="periodNo" jdbcType="VARCHAR" />
+    <result column="variable_value" property="variableValue" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    crop_no, variable_name, period_no, variable_value
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_crop_variable
+    where crop_no = #{cropNo,jdbcType=VARCHAR}
+      and variable_name = #{variableName,jdbcType=VARCHAR}
+      and period_no = #{periodNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from t_crop_variable
+    where crop_no = #{cropNo,jdbcType=VARCHAR}
+      and variable_name = #{variableName,jdbcType=VARCHAR}
+      and period_no = #{periodNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.szty.bean.CropVariable" >
+    insert into t_crop_variable (crop_no, variable_name, period_no, 
+      variable_value)
+    values (#{cropNo,jdbcType=VARCHAR}, #{variableName,jdbcType=VARCHAR}, #{periodNo,jdbcType=VARCHAR}, 
+      #{variableValue,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.szty.bean.CropVariable" >
+    insert into t_crop_variable
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cropNo != null" >
+        crop_no,
+      </if>
+      <if test="variableName != null" >
+        variable_name,
+      </if>
+      <if test="periodNo != null" >
+        period_no,
+      </if>
+      <if test="variableValue != null" >
+        variable_value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cropNo != null" >
+        #{cropNo,jdbcType=VARCHAR},
+      </if>
+      <if test="variableName != null" >
+        #{variableName,jdbcType=VARCHAR},
+      </if>
+      <if test="periodNo != null" >
+        #{periodNo,jdbcType=VARCHAR},
+      </if>
+      <if test="variableValue != null" >
+        #{variableValue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.szty.bean.CropVariable" >
+    update t_crop_variable
+    <set >
+      <if test="variableValue != null" >
+        variable_value = #{variableValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where crop_no = #{cropNo,jdbcType=VARCHAR}
+      and variable_name = #{variableName,jdbcType=VARCHAR}
+      and period_no = #{periodNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.szty.bean.CropVariable" >
+    update t_crop_variable
+    set variable_value = #{variableValue,jdbcType=VARCHAR}
+    where crop_no = #{cropNo,jdbcType=VARCHAR}
+      and variable_name = #{variableName,jdbcType=VARCHAR}
+      and period_no = #{periodNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

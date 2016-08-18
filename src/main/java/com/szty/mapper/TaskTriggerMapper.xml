@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.TaskTriggerMapper" >
+  <resultMap id="BaseResultMap" type="com.szty.bean.TaskTrigger" >
+    <id column="task_no" property="taskNo" jdbcType="VARCHAR" />
+    <id column="trigger_formula" property="triggerFormula" jdbcType="VARCHAR" />
+    <result column="trigger_than" property="triggerThan" jdbcType="VARCHAR" />
+    <result column="trigger_value" property="triggerValue" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    task_no, trigger_formula, trigger_than, trigger_value
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_task_trigger
+    where task_no = #{taskNo,jdbcType=VARCHAR}
+      and trigger_formula = #{triggerFormula,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from t_task_trigger
+    where task_no = #{taskNo,jdbcType=VARCHAR}
+      and trigger_formula = #{triggerFormula,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.szty.bean.TaskTrigger" >
+    insert into t_task_trigger (task_no, trigger_formula, trigger_than, 
+      trigger_value)
+    values (#{taskNo,jdbcType=VARCHAR}, #{triggerFormula,jdbcType=VARCHAR}, #{triggerThan,jdbcType=VARCHAR}, 
+      #{triggerValue,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.szty.bean.TaskTrigger" >
+    insert into t_task_trigger
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taskNo != null" >
+        task_no,
+      </if>
+      <if test="triggerFormula != null" >
+        trigger_formula,
+      </if>
+      <if test="triggerThan != null" >
+        trigger_than,
+      </if>
+      <if test="triggerValue != null" >
+        trigger_value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taskNo != null" >
+        #{taskNo,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerFormula != null" >
+        #{triggerFormula,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerThan != null" >
+        #{triggerThan,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerValue != null" >
+        #{triggerValue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.szty.bean.TaskTrigger" >
+    update t_task_trigger
+    <set >
+      <if test="triggerThan != null" >
+        trigger_than = #{triggerThan,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerValue != null" >
+        trigger_value = #{triggerValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where task_no = #{taskNo,jdbcType=VARCHAR}
+      and trigger_formula = #{triggerFormula,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.szty.bean.TaskTrigger" >
+    update t_task_trigger
+    set trigger_than = #{triggerThan,jdbcType=VARCHAR},
+      trigger_value = #{triggerValue,jdbcType=VARCHAR}
+    where task_no = #{taskNo,jdbcType=VARCHAR}
+      and trigger_formula = #{triggerFormula,jdbcType=VARCHAR}
+  </update>
+</mapper>

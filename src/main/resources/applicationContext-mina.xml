@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- 配置地址 -->
+	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<property name="customEditors">
+			<map>
+				<!-- spring升级后此配置已失效  会报错
+				<entry key="java.net.SocketAddress">
+					<bean class="org.apache.mina.integration.beans.InetSocketAddressEditor" />
+				</entry> 
+				-->
+				<!-- 修改这里 -->
+				<entry key="java.net.SocketAddress"
+					value="org.apache.mina.integration.beans.InetSocketAddressEditor">
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- 配置业务处理类 -->
+	<bean id="serviceHandler" class="com.szty.mina.SocketServerHandler" />
+
+	<!-- 配置service -->
+	<bean id="ioAcceptor" class="org.apache.mina.transport.socket.nio.NioSocketAcceptor"
+		init-method="bind" destroy-method="unbind">
+		<property name="defaultLocalAddress" value=":6007" />
+		<property name="handler" ref="serviceHandler" />
+		<property name="filterChainBuilder" ref="filterChainBuilder" />
+	</bean>
+
+	<!-- 配置解码器 -->
+	<bean id="codec" class="org.apache.mina.filter.codec.ProtocolCodecFilter">
+		<constructor-arg>
+			<!-- <bean class="org.apache.mina.filter.codec.textline.TextLineCodecFactory" 
+				/> -->
+			<!-- 自定义的 字符编码类 -->
+			<bean class="com.szty.mina.HCoderFactory" />
+		</constructor-arg>
+	</bean>
+
+	<!-- 配置日志拦截器 -->
+	<bean id="logger" class="org.apache.mina.filter.logging.LoggingFilter"/>
+
+	<!-- 将日志和解码器添加 -->
+	<bean id="filterChainBuilder"
+		class="org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder">
+		<property name="filters">
+			<map>
+				<entry key="codec" value-ref="codec" />
+				<entry key="logger" value-ref="logger" />
+			</map>
+		</property>
+	</bean>
+	
+</beans>

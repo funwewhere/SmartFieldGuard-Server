@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.FieldInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.szty.bean.FieldInfo" >
+    <id column="field_no" property="fieldNo" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="field_name" property="fieldName" jdbcType="VARCHAR" />
+    <result column="field_area" property="fieldArea" jdbcType="DOUBLE" />
+    <result column="device_mac" property="deviceMac" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+    <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+    <result column="crop_no" property="cropNo" jdbcType="VARCHAR" />
+    <result column="soil_t" property="soilT" jdbcType="DOUBLE" />
+    <result column="soil_w" property="soilW" jdbcType="DOUBLE" />
+    <result column="air_t" property="airT" jdbcType="DOUBLE" />
+    <result column="air_w" property="airW" jdbcType="DOUBLE" />
+    <result column="CO2" property="co2" jdbcType="DOUBLE" />
+    <result column="light" property="light" jdbcType="DOUBLE" />
+    <result column="last_time" property="lastTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    field_no, user_id, field_name, field_area, device_mac, longitude, latitude, crop_no, 
+    soil_t, soil_w, air_t, air_w, CO2, light, last_time, status, start_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_field_info
+    where field_no = #{fieldNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_field_info
+    where field_no = #{fieldNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.szty.bean.FieldInfo" >
+    insert into t_field_info (field_no, user_id, field_name, 
+      field_area, device_mac, longitude, 
+      latitude, crop_no, soil_t, 
+      soil_w, air_t, air_w, CO2, 
+      light, last_time, status, 
+      start_time)
+    values (#{fieldNo,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{fieldName,jdbcType=VARCHAR}, 
+      #{fieldArea,jdbcType=DOUBLE}, #{deviceMac,jdbcType=VARCHAR}, #{longitude,jdbcType=DOUBLE}, 
+      #{latitude,jdbcType=DOUBLE}, #{cropNo,jdbcType=VARCHAR}, #{soilT,jdbcType=DOUBLE}, 
+      #{soilW,jdbcType=DOUBLE}, #{airT,jdbcType=DOUBLE}, #{airW,jdbcType=DOUBLE}, #{co2,jdbcType=DOUBLE}, 
+      #{light,jdbcType=DOUBLE}, #{lastTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.szty.bean.FieldInfo" >
+    insert into t_field_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fieldNo != null" >
+        field_no,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="fieldName != null" >
+        field_name,
+      </if>
+      <if test="fieldArea != null" >
+        field_area,
+      </if>
+      <if test="deviceMac != null" >
+        device_mac,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="cropNo != null" >
+        crop_no,
+      </if>
+      <if test="soilT != null" >
+        soil_t,
+      </if>
+      <if test="soilW != null" >
+        soil_w,
+      </if>
+      <if test="airT != null" >
+        air_t,
+      </if>
+      <if test="airW != null" >
+        air_w,
+      </if>
+      <if test="co2 != null" >
+        CO2,
+      </if>
+      <if test="light != null" >
+        light,
+      </if>
+      <if test="lastTime != null" >
+        last_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fieldNo != null" >
+        #{fieldNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldName != null" >
+        #{fieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldArea != null" >
+        #{fieldArea,jdbcType=DOUBLE},
+      </if>
+      <if test="deviceMac != null" >
+        #{deviceMac,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="cropNo != null" >
+        #{cropNo,jdbcType=VARCHAR},
+      </if>
+      <if test="soilT != null" >
+        #{soilT,jdbcType=DOUBLE},
+      </if>
+      <if test="soilW != null" >
+        #{soilW,jdbcType=DOUBLE},
+      </if>
+      <if test="airT != null" >
+        #{airT,jdbcType=DOUBLE},
+      </if>
+      <if test="airW != null" >
+        #{airW,jdbcType=DOUBLE},
+      </if>
+      <if test="co2 != null" >
+        #{co2,jdbcType=DOUBLE},
+      </if>
+      <if test="light != null" >
+        #{light,jdbcType=DOUBLE},
+      </if>
+      <if test="lastTime != null" >
+        #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.szty.bean.FieldInfo" >
+    update t_field_info
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldName != null" >
+        field_name = #{fieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldArea != null" >
+        field_area = #{fieldArea,jdbcType=DOUBLE},
+      </if>
+      <if test="deviceMac != null" >
+        device_mac = #{deviceMac,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="cropNo != null" >
+        crop_no = #{cropNo,jdbcType=VARCHAR},
+      </if>
+      <if test="soilT != null" >
+        soil_t = #{soilT,jdbcType=DOUBLE},
+      </if>
+      <if test="soilW != null" >
+        soil_w = #{soilW,jdbcType=DOUBLE},
+      </if>
+      <if test="airT != null" >
+        air_t = #{airT,jdbcType=DOUBLE},
+      </if>
+      <if test="airW != null" >
+        air_w = #{airW,jdbcType=DOUBLE},
+      </if>
+      <if test="co2 != null" >
+        CO2 = #{co2,jdbcType=DOUBLE},
+      </if>
+      <if test="light != null" >
+        light = #{light,jdbcType=DOUBLE},
+      </if>
+      <if test="lastTime != null" >
+        last_time = #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where field_no = #{fieldNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.szty.bean.FieldInfo" >
+    update t_field_info
+    set user_id = #{userId,jdbcType=VARCHAR},
+      field_name = #{fieldName,jdbcType=VARCHAR},
+      field_area = #{fieldArea,jdbcType=DOUBLE},
+      device_mac = #{deviceMac,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      crop_no = #{cropNo,jdbcType=VARCHAR},
+      soil_t = #{soilT,jdbcType=DOUBLE},
+      soil_w = #{soilW,jdbcType=DOUBLE},
+      air_t = #{airT,jdbcType=DOUBLE},
+      air_w = #{airW,jdbcType=DOUBLE},
+      CO2 = #{co2,jdbcType=DOUBLE},
+      light = #{light,jdbcType=DOUBLE},
+      last_time = #{lastTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP}
+    where field_no = #{fieldNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

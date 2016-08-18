@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.my.CropMapper">
+
+	<select id="getSubCropTypes" parameterType="String" resultType="com.szty.bean.my.VoCropType">
+		SELECT
+			crop_type_no cropTypeNo,
+			crop_type_name cropTypeName,
+			parent_type parentType,
+			is_last isLast,
+			image_url imageUrl
+		FROM t_crop_type WHERE parent_type = #{cropTypeNo}
+	</select>
+	
+	<select id="getCropListSimple" parameterType="String" resultType="com.szty.bean.my.VoCropInfoSimple">
+		SELECT
+			crop_no cropNo,
+			crop_type_no cropTpyeNo,
+			crop_name cropName,
+			image_url imageUrl
+		FROM
+			t_crop_info
+		WHERE crop_type_no = #{cropTypeNo}
+	</select>
+	
+	<resultMap id="cropPlan_Map" type="com.szty.bean.my.CropPlan">
+		<association property="cropInfo" select="getCropInfo" column="cropNo"/>
+		<collection property="cropTaskList" select="getCropTaskList" column="cropNo"/>
+	</resultMap>
+	
+	<resultMap id="VoCropInfo_Map" type="com.szty.bean.my.VoCropInfo">
+		<id property="cropNo" column="cropNo"/>
+		<result property="cropTpyeNo" column="cropTpyeNo"/>
+		<result property="cropName" column="cropName"/>
+		<result property="imageUrl" column="imageUrl"/>
+		<result property="intro" column="intro"/>
+		<result property="temperature" column="temperature"/>
+		<result property="light" column="light"/>
+		<result property="water" column="water"/>
+		<result property="soil" column="soil"/>
+		<result property="growDays" column="growDays"/>
+	</resultMap>
+	
+	<resultMap id="VoCropTask_Map" type="com.szty.bean.my.VoCropTask">
+		<id property="taskNo" column="taskNo"/>
+		<result property="taskName" column="taskName"/>
+		<result property="taskFormula" column="taskFormula"/>
+		<result property="lastTask" column="lastTask"/>
+		<result property="taskType" column="taskType"/>
+		<result property="start" column="start"/>
+		<result property="useDays" column="useDays"/>
+		<result property="periodNo" column="periodNo"/>
+		<collection property="taskTriggerList" ofType="com.szty.bean.my.TaskTriggerSimple">
+			 <id property="triggerFormula" column="triggerFormula"/>
+			 <result property="triggerThan" column="triggerThan"/>
+			 <result property="triggerValue" column="triggerValue"/>
+		</collection>
+	</resultMap>
+	
+	<select id="getCropPlan" parameterType="String" resultMap="cropPlan_Map">
+		SELECT crop_no cropNo FROM t_crop_info WHERE crop_no = #{cropNo}
+	</select>
+
+	<select id="getCropInfo" parameterType="String" resultMap="VoCropInfo_Map">
+		SELECT
+			t_crop_info.crop_no cropNo,
+			crop_type_no cropTpyeNo,
+			crop_name cropName,
+			image_url imageUrl,
+			intro,
+			temperature,
+			light,
+			water,
+			soil,
+			grow_days growDays
+		FROM t_crop_info
+		WHERE t_crop_info.crop_no = #{cropNo}
+	</select>
+	
+	<select id="getCropTaskList" parameterType="String" resultMap="VoCropTask_Map">
+		SELECT
+			t_task_info.task_no taskNo,
+			task_name taskName,
+			task_formula taskFormula,
+			last_task lastTask,
+			task_type taskType,
+			`start`,
+			use_days useDays,
+			period_no periodNo,
+			attention,
+			trigger_formula triggerFormula,
+			trigger_than triggerThan,
+			trigger_value triggerValue
+		FROM t_task_info
+		LEFT JOIN t_task_trigger ON t_task_info.task_no = t_task_trigger.task_no
+		WHERE t_task_info.crop_no = #{cropNo}
+	</select>
+	
+	<select id="getCropVariables" parameterType="String" resultType="com.szty.bean.CropVariable">
+		SELECT
+			crop_no cropNo,
+			variable_name variableName,
+			period_no periodNo,
+			variable_value variableValue
+		FROM t_crop_variable
+		WHERE crop_no = #{cropNo}
+	</select>
+	
+	<select id="getCropPeriods" parameterType="String" resultType="com.szty.bean.CropPeriod">
+		SELECT
+			period_no periodNo,
+			crop_no cropNo,
+			period_name periodName
+		FROM t_crop_period
+		WHERE crop_no = #{cropNo}
+	</select>
+</mapper>

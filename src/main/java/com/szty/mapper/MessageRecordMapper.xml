@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.MessageRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.szty.bean.MessageRecord" >
+    <id column="message_no" property="messageNo" jdbcType="VARCHAR" />
+    <result column="send_user" property="sendUser" jdbcType="VARCHAR" />
+    <result column="receive_user" property="receiveUser" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="is_read" property="isRead" jdbcType="CHAR" />
+    <result column="send_date" property="sendDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.szty.bean.MessageRecord" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    message_no, send_user, receive_user, type, is_read, send_date
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_message_record
+    where message_no = #{messageNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_message_record
+    where message_no = #{messageNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.szty.bean.MessageRecord" >
+    insert into t_message_record (message_no, send_user, receive_user, 
+      type, is_read, send_date, 
+      content)
+    values (#{messageNo,jdbcType=VARCHAR}, #{sendUser,jdbcType=VARCHAR}, #{receiveUser,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{isRead,jdbcType=CHAR}, #{sendDate,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.szty.bean.MessageRecord" >
+    insert into t_message_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="messageNo != null" >
+        message_no,
+      </if>
+      <if test="sendUser != null" >
+        send_user,
+      </if>
+      <if test="receiveUser != null" >
+        receive_user,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="isRead != null" >
+        is_read,
+      </if>
+      <if test="sendDate != null" >
+        send_date,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="messageNo != null" >
+        #{messageNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sendUser != null" >
+        #{sendUser,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUser != null" >
+        #{receiveUser,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="isRead != null" >
+        #{isRead,jdbcType=CHAR},
+      </if>
+      <if test="sendDate != null" >
+        #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.szty.bean.MessageRecord" >
+    update t_message_record
+    <set >
+      <if test="sendUser != null" >
+        send_user = #{sendUser,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUser != null" >
+        receive_user = #{receiveUser,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="isRead != null" >
+        is_read = #{isRead,jdbcType=CHAR},
+      </if>
+      <if test="sendDate != null" >
+        send_date = #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where message_no = #{messageNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.szty.bean.MessageRecord" >
+    update t_message_record
+    set send_user = #{sendUser,jdbcType=VARCHAR},
+      receive_user = #{receiveUser,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      is_read = #{isRead,jdbcType=CHAR},
+      send_date = #{sendDate,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where message_no = #{messageNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.szty.bean.MessageRecord" >
+    update t_message_record
+    set send_user = #{sendUser,jdbcType=VARCHAR},
+      receive_user = #{receiveUser,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      is_read = #{isRead,jdbcType=CHAR},
+      send_date = #{sendDate,jdbcType=TIMESTAMP}
+    where message_no = #{messageNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

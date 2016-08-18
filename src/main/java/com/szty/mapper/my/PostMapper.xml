@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.my.PostMapper">
+
+	<sql id="postColumn">
+		post_no postNo,
+		t_post.user_id userId,
+		type,
+		parent_area parentArea,
+		title,
+		images,
+		reply_num replyNum,
+		t_post.status, 
+		create_date createDate,
+		last_reply_date lastReplyDate,
+		content
+	</sql>
+
+	<select id="getPostCount" parameterType="com.szty.bean.my.PostCriteria" resultType="int">
+		SELECT
+			count(*)
+		FROM t_post_info
+		<where>
+			<if test="userId != null and userId !=''">user_id = #{userId}</if>
+			<if test="parentArea != null and parentArea !=''">AND parent_area = #{parentArea}</if>
+			<if test="type != null and type !=''">AND type = #{type}</if>
+			<if test="status != null and status !=''">AND status = #{status}</if>
+			<if test="lastDate != null and lastDate !=''">AND create_date > #{lastDate}</if>
+		</where>
+	</select>
+    
+    <select id="getPostList" parameterType="com.szty.bean.my.PostCriteria" resultType="com.szty.bean.my.VoPostSimple">
+    	SELECT
+			<include refid="postColumn"/>,
+			username,
+			head_image headImage
+		FROM t_post_info t_post
+		LEFT JOIN t_user_info t_user ON t_post.user_id = t_user.user_id 
+		<where>
+			<if test="userId != null and userId !=''">t_post.user_id = #{userId}</if>
+			<if test="parentArea != null and parentArea !=''">AND t_post.parent_area = #{parentArea}</if>
+			<if test="type != null and type !=''">AND t_post.type = #{type}</if>
+			<if test="status != null and status !=''">AND t_post.status = #{status}</if>
+			<if test="lastDate != null and lastDate !=''">AND t_post.create_date > #{lastDate}</if>
+		</where>
+		ORDER BY
+			last_reply_date DESC
+		<if test="dataStart != null and pageCount != null">LIMIT #{dataStart},#{pageCount}</if>
+    </select>
+    
+    <select id="getPostInfo" parameterType="String" resultType="com.szty.bean.my.VoPost">
+    	SELECT
+			<include refid="postColumn"/>,
+			username,
+			head_image headImage,
+			best_reply_no bestReplyNo
+		FROM t_post_info t_post
+		LEFT JOIN t_user_info t_user ON t_post.user_id = t_user.user_id 
+		WHERE t_post.post_no = #{postNo}
+    </select>
+    
+	<select id="getAndLockPostReplyNum" parameterType="String" resultType="Integer" flushCache="true">
+		SELECT reply_num FROM t_post_info where post_no = #{postNo} FOR UPDATE
+	</select>
+	
+</mapper>

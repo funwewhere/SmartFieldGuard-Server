@@ -1,0 +1,6 @@
+/.settings
+lib/
+/target/
+.classpath
+.project
+.mymetadata

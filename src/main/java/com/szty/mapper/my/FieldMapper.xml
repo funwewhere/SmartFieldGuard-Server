@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.my.FieldMapper">
+
+	<update id="RecordFieldData" parameterType="Map">
+		INSERT INTO t_field_history(crop_no,field_no,soil_t,soil_w,air_t,air_w,light,CO2,record_time)
+		(SELECT 
+			crop_no,
+			field_no,
+			soil_t,
+			soil_w,
+			air_t,
+			air_w,
+			light,
+			CO2,
+			last_time 
+		FROM t_field_info 
+		WHERE user_id = #{userId} AND device_mac = #{mac})
+	</update>
+
+	<update id="updateFieldData" parameterType="Map">
+		UPDATE t_field_info
+		SET 
+			soil_t = #{soilT},
+			soil_w = #{soilW},
+			air_t = #{airT},
+			air_w = #{airW},
+			light = #{light},
+			CO2 = #{co2},
+			last_time = #{nowDate}
+		WHERE user_id = #{userId} AND device_mac = #{mac}
+	</update>
+	
+	<select id="getFieldCount" parameterType="Map" resultType="int">
+		SELECT 
+			count(*)
+		FROM t_field_info
+		<where>
+			<if test="fieldNo != null and fieldNo !=''">field_no = #{fieldNo}</if>
+			<if test="userId != null and userId !=''">and user_id = #{userId}</if>
+			<if test="mac != null and mac !=''">and device_mac = #{mac}</if>
+		</where>
+	</select>
+	
+	<select id="getFieldList" parameterType="String" resultType="com.szty.bean.my.VoFeild">
+		SELECT
+			field_no fieldNo,
+			user_id userId,
+			field_name fieldName,
+			field_area fieldArea,
+			device_mac deviceMac,
+			longitude,
+			latitude,
+			crop_no cropNo,
+			status,
+			start_time startTime
+		FROM t_field_info WHERE user_id = #{userId}
+	</select>
+	
+	<select id="getFieldData" parameterType="Map" resultType="com.szty.bean.my.VoFieldData">
+		SELECT
+			soil_t soilT,
+			soil_w soilW,
+			air_t airT,
+			air_w airW,
+			CO2 co2,
+			light light,
+			last_time recordTime
+		FROM t_field_info WHERE field_no = #{fieldNo} and user_id = #{userId}
+	</select>
+	
+	<select id="getFieldHistoryDatas" parameterType="com.szty.bean.my.FieldHistoryCriteria" resultType="com.szty.bean.my.VoFieldData">
+		SELECT
+			soil_t soilT,
+			soil_w soilW,
+			air_t airT,
+			air_w airW,
+			CO2 co2,
+			light light,
+			record_time recordTime
+		FROM t_field_history
+		<where>
+			field_no = #{fieldNo} and record_time &gt; #{startTime} and record_time &lt; #{endTime}
+			<if test="cropNo != null and cropNo !=''">and crop_no = #{cropNo}</if>
+		</where>
+		order by record_time
+	</select>
+</mapper>

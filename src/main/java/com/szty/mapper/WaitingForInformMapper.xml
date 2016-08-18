@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.WaitingForInformMapper" >
+  <resultMap id="BaseResultMap" type="com.szty.bean.WaitingForInform" >
+    <id column="inform_flow_no" property="informFlowNo" jdbcType="INTEGER" />
+    <result column="inform_user" property="informUser" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="no" property="no" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="sno" property="sno" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    inform_flow_no, inform_user, type, no, create_date, memo, sno
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_waiting_for_inform
+    where inform_flow_no = #{informFlowNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_waiting_for_inform
+    where inform_flow_no = #{informFlowNo,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.szty.bean.WaitingForInform" >
+    insert into t_waiting_for_inform (inform_flow_no, inform_user, type, 
+      no, create_date, memo, 
+      sno)
+    values (#{informFlowNo,jdbcType=INTEGER}, #{informUser,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{no,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{memo,jdbcType=VARCHAR}, 
+      #{sno,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.szty.bean.WaitingForInform" >
+    insert into t_waiting_for_inform
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="informFlowNo != null" >
+        inform_flow_no,
+      </if>
+      <if test="informUser != null" >
+        inform_user,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="no != null" >
+        no,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+      <if test="sno != null" >
+        sno,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="informFlowNo != null" >
+        #{informFlowNo,jdbcType=INTEGER},
+      </if>
+      <if test="informUser != null" >
+        #{informUser,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null" >
+        #{no,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="sno != null" >
+        #{sno,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.szty.bean.WaitingForInform" >
+    update t_waiting_for_inform
+    <set >
+      <if test="informUser != null" >
+        inform_user = #{informUser,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null" >
+        no = #{no,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="sno != null" >
+        sno = #{sno,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where inform_flow_no = #{informFlowNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.szty.bean.WaitingForInform" >
+    update t_waiting_for_inform
+    set inform_user = #{informUser,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      no = #{no,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      memo = #{memo,jdbcType=VARCHAR},
+      sno = #{sno,jdbcType=VARCHAR}
+    where inform_flow_no = #{informFlowNo,jdbcType=INTEGER}
+  </update>
+</mapper>
