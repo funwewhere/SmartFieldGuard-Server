@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import com.szty.bean.my.PostCriteria;
 import com.szty.bean.my.VoPost;
 import com.szty.bean.my.VoPostSimple;
 import com.szty.bean.my.VoReply;
+import com.szty.enums.FileTpye;
 import com.szty.enums.PostStatus;
 import com.szty.enums.Table;
 import com.szty.mapper.PostInfoMapper;
@@ -74,9 +76,11 @@ public class PostServiceImpl implements PostService {
 		
 		StringBuffer strBuffer = new StringBuffer();
 		int i = 0;
-		for (int len = iamges==null?0:iamges.length; i<len; ++i ) {
-			strBuffer.append(fileUtil.saveFile("postImage", iamges[i], null));
-			if (i < len -1) strBuffer.append("|");
+		for (int len = iamges==null ? 0 : iamges.length; i<len; ++i ) {
+			strBuffer.append(fileUtil.saveFileAndMini(FileTpye.PostImage, iamges[i], iamges[++i], null));
+			if (i < len -1) {
+				strBuffer.append("|");
+			}
 		}
 		
 		if (i > 0) {
@@ -180,7 +184,7 @@ public class PostServiceImpl implements PostService {
 		StringBuffer imageUrls = new StringBuffer();
 		int i = 0;
 		for (int len = iamges==null?0:iamges.length; i<len; ++i ) {
-			imageUrls.append(fileUtil.saveFile("postImage", iamges[i], null));
+			imageUrls.append(fileUtil.saveFileAndMini(FileTpye.PostImage, iamges[i], iamges[++i], null));
 			if (i < len -1) imageUrls.append("|");
 		}
 		

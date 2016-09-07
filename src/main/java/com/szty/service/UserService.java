@@ -1,6 +1,9 @@
 package com.szty.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.szty.bean.UserInfo;
+import com.szty.enums.FileTpye;
 import com.szty.util.PageUtil;
 
 public interface UserService {
@@ -19,4 +22,6 @@ public interface UserService {
 	public void lock(String userId) throws Exception;
 
 	public UserInfo getUser(String userId) throws Exception;
+
+	public String uploadFile(FileTpye fileType, MultipartFile[] files, String userId) throws Exception;
 }

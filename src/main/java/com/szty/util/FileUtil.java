@@ -8,15 +8,17 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.szty.enums.FileTpye;
+
 @Component
 public class FileUtil {
 	
-//	private final static String SavePath = "E:/Myphoto/temp";
+	private final static String SavePath = "E:/Myphoto/temp";
 
-	private final static String SavePath = "/data/upload";
+//	private final static String SavePath = "/data/upload";
 	
-	public String saveFile(String type, MultipartFile imageFile, String saveFilePath) throws Exception  {
-		if (imageFile.isEmpty() || type == null || type.isEmpty()) {
+	public String saveFile(FileTpye fileType, MultipartFile imageFile, String saveFilePath) throws Exception  {
+		if (imageFile.isEmpty() || fileType == null) {
 			throw new Exception("错误上传参数");
 		}
 		
@@ -29,7 +31,7 @@ public class FileUtil {
 		int index = fileName.lastIndexOf(".");
 		StringBuffer stringBuffer = new StringBuffer("/SZTY");
 		stringBuffer.append("/");
-		stringBuffer.append(type);
+		stringBuffer.append(fileType.name());
 		stringBuffer.append("/");
 		stringBuffer.append(saveFilePath);
 		stringBuffer.append(fileName.substring(index));
@@ -42,5 +44,12 @@ public class FileUtil {
 		imageFile.transferTo(file);
 
 		return filePath;
+	}
+	
+	public String saveFileAndMini(FileTpye fileType, MultipartFile originFile, MultipartFile miniFile, String saveFilePath) throws Exception  {
+		String savePath = saveFile(fileType, originFile, saveFilePath);
+		String minisaveFile = savePath.substring(savePath.lastIndexOf(fileType.name()) + fileType.name().length() + 1, savePath.lastIndexOf("."));
+		saveFile(fileType, miniFile, saveFilePath + "_mini");
+		return savePath;
 	}
 }

@@ -7,8 +7,10 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.szty.bean.UserInfo;
+import com.szty.enums.FileTpye;
 import com.szty.enums.Table;
 import com.szty.enums.UserRole;
 import com.szty.enums.UserStatus;
@@ -17,6 +19,7 @@ import com.szty.mapper.UserInfoMapper;
 import com.szty.mapper.my.UserMapper;
 import com.szty.service.UserService;
 import com.szty.util.EncryptUtil;
+import com.szty.util.FileUtil;
 import com.szty.util.PageUtil;
 import com.szty.util.SystemUtil;
 
@@ -31,6 +34,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private SystemUtil keyGenerator;
+	
+	@Autowired
+	private FileUtil fileUtil;
 	
 	@Override
 	public UserInfo selectUser(String principal) throws Exception {
@@ -136,7 +142,7 @@ public class UserServiceImpl implements UserService {
 		
 		//TODO
 		if (StringUtils.isBlank(userInfo.getHeadImage())) {
-			userInfo.setHeadImage("/SZTY/666.jpg");
+			userInfo.setHeadImage("/SZTY/UserHead/666.jpg");
 		}
 		
 		String key = null;
@@ -193,5 +199,20 @@ public class UserServiceImpl implements UserService {
 	public UserInfo getUser(String userId) throws Exception {
 		return userInfoMapper.selectByPrimaryKey(userId);
 	}
+
+	@Override
+	public String uploadFile(FileTpye fileType, MultipartFile[] files, String userId) throws Exception {
+		if (files == null || files.length == 0) {
+			return null;
+		}
+		
+		String savePath = fileUtil.saveFileAndMini(fileType, files[0], files[1], userId);
+		UserInfo userInfo = userInfoMapper.selectByPrimaryKey(userId);
+		userInfo.setHeadImage(savePath);
+		userInfoMapper.updateByPrimaryKeySelective(userInfo);
+		
+		return savePath;
+	}
+
 	
 }

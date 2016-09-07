@@ -16,12 +16,16 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.szty.bean.UserInfo;
 import com.szty.bean.my.VoUserInfo;
+import com.szty.enums.FileTpye;
 import com.szty.exception.CustomException;
 import com.szty.service.UserService;
+import com.szty.util.FileUtil;
 import com.szty.util.PageUtil;
 
 @Controller
@@ -30,11 +34,9 @@ public class UserController {
 	
 //	private Logger log = Logger.getLogger(UserController.class);
 	
-//	private static final String staticUrlPrefix = "http://192.168.1.102:8080/upload";
+//	private static final String staticUrlPrefix = "http://192.168.31.112/upload";
 	
-	private static final String staticUrlPrefix = "http://localhost/upload";
-	
-//	private static final String staticUrlPrefix = "http://192.168.1.178:8080/upload";
+	private static final String staticUrlPrefix = "http://192.168.31.112:8080/upload";
 	
 	@Autowired
 	private UserService userService;
@@ -86,6 +88,14 @@ public class UserController {
 		request.getSession().setAttribute("currentUser", currentUser);
 		map.put("userInfo", currentUser);
 		map.put("staticUrlPrefix", staticUrlPrefix);
+		return map;
+	}
+	
+	@RequestMapping(value="/upload",produces="application/json;charset=utf-8")
+	public @ResponseBody Map<String,Object> upload(FileTpye fileType, @RequestParam("file") MultipartFile[] files, HttpServletRequest request) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		VoUserInfo currentUser = (VoUserInfo) request.getSession().getAttribute("currentUser");
+		userService.uploadFile(fileType, files, currentUser.getUserId());
 		return map;
 	}
 	
