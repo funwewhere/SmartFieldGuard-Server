@@ -157,7 +157,6 @@ public class SocketHandler {
 	}
 	
 	public boolean sendMessage(String deviceId, Object message) {
-		System.out.println("lilililililililil");
 		if(!socketSessionMap.containsKey(deviceId)){
 			System.out.println(deviceId + "不在~~");
 			return false;

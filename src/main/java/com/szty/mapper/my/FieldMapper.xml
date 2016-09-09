@@ -65,6 +65,7 @@
 			air_w airW,
 			CO2 co2,
 			light light,
+			device_mac deviceMac,
 			last_time recordTime
 		FROM t_field_info WHERE field_no = #{fieldNo} and user_id = #{userId}
 	</select>

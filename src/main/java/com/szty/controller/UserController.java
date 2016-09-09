@@ -14,6 +14,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +26,6 @@ import com.szty.bean.my.VoUserInfo;
 import com.szty.enums.FileTpye;
 import com.szty.exception.CustomException;
 import com.szty.service.UserService;
-import com.szty.util.FileUtil;
 import com.szty.util.PageUtil;
 
 @Controller
@@ -34,15 +34,11 @@ public class UserController {
 	
 //	private Logger log = Logger.getLogger(UserController.class);
 	
-//	private static final String staticUrlPrefix = "http://192.168.31.112/upload";
-	
-	private static final String staticUrlPrefix = "http://192.168.31.112:8080/upload";
+	@Value("${staticUrlPrefix}")
+	private static String staticUrlPrefix;
 	
 	@Autowired
 	private UserService userService;
-	
-//	@Autowired
-//	private SocketHandler socketHandler;
 	
 	@RequestMapping(value="/register",produces="application/json;charset=utf-8")
 	public @ResponseBody Map<String,Object> register(UserInfo userInfo, HttpServletRequest request, HttpServletResponse response) throws Exception{

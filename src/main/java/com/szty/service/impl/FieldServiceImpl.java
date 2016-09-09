@@ -129,6 +129,9 @@ public class FieldServiceImpl implements FieldService {
 	@Override
 	public VoFieldData getNewestData(String fieldNo, String userId) {
 		VoFieldData fieldData = fieldMapper.getFieldData(fieldNo, userId);
+		if (fieldData != null && !StringUtils.isBlank(fieldData.getDeviceMac())) {
+			socketHandler.sendMessage("device_" + fieldData.getDeviceMac(), "newData\n");
+		}
 		return fieldData;
 	}
 

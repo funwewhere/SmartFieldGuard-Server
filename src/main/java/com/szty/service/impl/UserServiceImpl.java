@@ -142,7 +142,7 @@ public class UserServiceImpl implements UserService {
 		
 		//TODO
 		if (StringUtils.isBlank(userInfo.getHeadImage())) {
-			userInfo.setHeadImage("/SZTY/UserHead/666.jpg");
+			userInfo.setHeadImage("/SZTY/UserHead/default.png");
 		}
 		
 		String key = null;

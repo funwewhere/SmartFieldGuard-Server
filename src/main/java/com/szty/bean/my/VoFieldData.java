@@ -15,6 +15,8 @@ public class VoFieldData {
 
     private Double light;
     
+    private String deviceMac;
+    
     private Date recordTime;
     
     private int num;
@@ -126,6 +128,14 @@ public class VoFieldData {
 
 	public void setRecordTime(Date recordTime) {
 		this.recordTime = recordTime;
+	}
+
+	public String getDeviceMac() {
+		return deviceMac;
+	}
+
+	public void setDeviceMac(String deviceMac) {
+		this.deviceMac = deviceMac;
 	}
 
 }
