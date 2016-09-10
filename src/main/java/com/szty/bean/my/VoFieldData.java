@@ -43,6 +43,7 @@ public class VoFieldData {
 		soilW = deviceData.getSoilW();
 		light = deviceData.getLight();
 		co2 = deviceData.getCo2();
+		deviceMac = deviceData.getMac();
 		recordTime = deviceData.getNowDate();
 	}
     

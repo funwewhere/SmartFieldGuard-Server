@@ -19,10 +19,19 @@ public abstract class AbstractInformFactory {
 	 */
 	protected InformType type;
 	
+	/**
+	 * 需要通知的对象
+	 */
 	protected Set<String> informUserIds;
 
+	/**
+	 * 
+	 */
 	protected List<Inform> informList;
 
+	/**
+	 * 通知的信息
+	 */
 	protected Map<String, Object> data;
 	
 	protected boolean outOfDate;

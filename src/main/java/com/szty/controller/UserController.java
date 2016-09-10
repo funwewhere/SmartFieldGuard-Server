@@ -14,7 +14,6 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,8 +33,8 @@ public class UserController {
 	
 //	private Logger log = Logger.getLogger(UserController.class);
 	
-	@Value("${staticUrlPrefix}")
-	private static String staticUrlPrefix;
+//	@Value("${staticUrlPrefix}")
+	private static String staticUrlPrefix = "http://funwewhere.com/upload";
 	
 	@Autowired
 	private UserService userService;
@@ -106,7 +105,6 @@ public class UserController {
 	
 	@RequestMapping(value="/judgeLogin",produces="application/json;charset=utf-8")
 	public @ResponseBody Map<String,Object> judgeLogin(String userId, HttpServletRequest request, HttpServletResponse response) throws Exception{
-//		socketService.sendMessage("rrr", "WO LAI le !!!!!!!!!!");
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpSession session = request.getSession(false);
 		if (session == null ||session.getAttribute("currentUser") == null) {

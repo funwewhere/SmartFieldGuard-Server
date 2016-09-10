@@ -130,7 +130,7 @@ public class FieldServiceImpl implements FieldService {
 	public VoFieldData getNewestData(String fieldNo, String userId) {
 		VoFieldData fieldData = fieldMapper.getFieldData(fieldNo, userId);
 		if (fieldData != null && !StringUtils.isBlank(fieldData.getDeviceMac())) {
-			socketHandler.sendMessage("device_" + fieldData.getDeviceMac(), "newData\n");
+			socketHandler.sendMessage("device_" + fieldData.getDeviceMac(), "\nnewData\n");
 		}
 		return fieldData;
 	}

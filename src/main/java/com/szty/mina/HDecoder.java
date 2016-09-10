@@ -25,15 +25,15 @@ public class HDecoder extends CumulativeProtocolDecoder {
 
 	public boolean doDecode(IoSession session, IoBuffer in,
 			ProtocolDecoderOutput out){
-		log.info("in.....");
+//		log.info("in.....");
 		try {
 			if(in.remaining()<5){
-				log.info("in.....<5");
+//				log.info("in.....<5");
 				return false;
 			}
 			in.mark();
 			byte a = in.get();
-			log.info("a....." + a);
+//			log.info("a....." + a);
 			if(a == 0x01){
 				for(int i=0; i<3; ++i){
 					in.get();
@@ -47,7 +47,7 @@ public class HDecoder extends CumulativeProtocolDecoder {
 					in.get(bytes, 0, b);
 					String lenStr = new String(bytes,charset);
 					int len = Integer.parseInt(lenStr);
-					log.info("len: " + len);
+//					log.info("len: " + len);
 					if(len <0 || len > in.remaining()){
 						in.reset();
 						return false;
@@ -55,10 +55,10 @@ public class HDecoder extends CumulativeProtocolDecoder {
 						byte[] dataBytes = new byte[len];
 						in.get(dataBytes, 0, len);
 						String data = new String(dataBytes, charset);
-						System.out.println("data: " + data);
 						if("keep-live".equals(data)){
-							session.write("keep-live\n");
+							session.write("\nkeep-live\n");
 						} else {
+							System.out.println("device data: " + data);
 							JSONObject jsonObject = JSONObject.fromObject(data);
 							DeviceRequest deviceData = (DeviceRequest) JSONObject.toBean(jsonObject, DeviceRequest.class);
 							out.write(deviceData);
@@ -69,9 +69,8 @@ public class HDecoder extends CumulativeProtocolDecoder {
 					}
 				}
 			} else if(a == 0x02){
-				log.info("iOS coming......");
 				int length = in.getInt();
-				log.info("iOS length......" + length);
+//				log.info("iOS length......" + length);
 				if(length <0 || length > in.remaining()){
 					in.reset();
 					return false;

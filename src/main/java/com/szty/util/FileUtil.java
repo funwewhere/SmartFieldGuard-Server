@@ -14,8 +14,8 @@ import com.szty.enums.FileTpye;
 @Component
 public class FileUtil {
 	
-	@Value("${fileSavePath}")
-	private static String SavePath;
+//	@Value("${fileSavePath}")
+	private static String SavePath = "/data/upload";
 	
 	public String saveFile(FileTpye fileType, MultipartFile imageFile, String saveFilePath) throws Exception  {
 		

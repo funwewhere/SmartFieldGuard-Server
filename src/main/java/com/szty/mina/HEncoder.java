@@ -38,11 +38,11 @@ public class HEncoder implements ProtocolEncoder {
 			buffer.put(a);
 			buffer.putInt(data.getData().getBytes().length);
 			System.out.println("IOS response user" + session.getAttribute("key"));
-			System.out.println("IOS response length" + data.getData().getBytes().length);
+			System.out.println("IOS response length " + data.getData().getBytes().length);
 			System.out.println("IOS response data:" + data.getData());
 			buffer.putString(data.getData(), charset.newEncoder());
 		} else {
-			System.out.println("response data:" + message);
+			System.out.println("device response data:" + message);
 			buffer.putObject(message);
 		}
         buffer.flip();

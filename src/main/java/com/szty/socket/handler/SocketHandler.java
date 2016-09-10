@@ -96,6 +96,7 @@ public class SocketHandler {
 						return false;
 					}
 					String key = "user_" + userId;
+					System.out.println(key + "socket登陆");
 					session.setAttribute("key", key);
 					socketSessionMap.put(key, session);
 					pushInformService.pushAllInformToUsers(userId);
