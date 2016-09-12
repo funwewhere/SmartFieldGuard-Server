@@ -63,7 +63,7 @@ public class VoFieldData {
 	}
     
     public void calculateAverageValue(){
-    	if (num == -1) return;
+    	if (num == -1 || num == 0) return;
     	soilT = soilT/num;
     	soilW = soilW/num;
     	airT/=num;

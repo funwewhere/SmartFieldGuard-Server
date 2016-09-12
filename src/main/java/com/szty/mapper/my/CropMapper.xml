@@ -50,6 +50,7 @@
 		<result property="start" column="start"/>
 		<result property="useDays" column="useDays"/>
 		<result property="periodNo" column="periodNo"/>
+		<result property="attention" column="attention"/>
 		<collection property="taskTriggerList" ofType="com.szty.bean.my.TaskTriggerSimple">
 			 <id property="triggerFormula" column="triggerFormula"/>
 			 <result property="triggerThan" column="triggerThan"/>
