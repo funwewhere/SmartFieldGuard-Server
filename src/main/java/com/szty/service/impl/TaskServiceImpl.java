@@ -1,5 +1,6 @@
 package com.szty.service.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +11,13 @@ import org.springframework.stereotype.Service;
 import com.szty.bean.CropInfo;
 import com.szty.bean.CropPeriod;
 import com.szty.bean.CropVariable;
+import com.szty.bean.FieldTaskRecord;
+import com.szty.bean.TaskInfo;
 import com.szty.bean.my.CropPlan;
+import com.szty.exception.CustomException;
 import com.szty.mapper.CropInfoMapper;
+import com.szty.mapper.FieldTaskRecordMapper;
+import com.szty.mapper.TaskInfoMapper;
 import com.szty.mapper.my.CropMapper;
 import com.szty.service.TaskService;
 
@@ -23,6 +29,12 @@ public class TaskServiceImpl implements TaskService {
 	
 	@Autowired
 	private CropMapper cropMapper;
+	
+	@Autowired
+	private TaskInfoMapper taskInfoMapper;
+	
+	@Autowired
+	private FieldTaskRecordMapper recordMapper;
 
 	@Override
 	public CropPlan download(String cropNo) {
@@ -50,6 +62,17 @@ public class TaskServiceImpl implements TaskService {
 		}
 		cropPlan.getCropInfo().setCropVariableList(variableList);
 		return cropPlan;
+	}
+
+	@Override
+	public void recordFieldTask(FieldTaskRecord fieldTaskRecord) throws CustomException {
+		fieldTaskRecord.setFinishTime(new Date());
+		TaskInfo taskInfo = taskInfoMapper.selectByPrimaryKey(fieldTaskRecord.getTaskNo());
+		if (taskInfo == null) {
+			throw new CustomException("invalid taskNo");
+		}
+		fieldTaskRecord.setCropNo(taskInfo.getCropNo());
+		recordMapper.insert(fieldTaskRecord);
 	}
 
 }

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.FieldTaskRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.szty.bean.FieldTaskRecord" >
+    <id column="record_no" property="recordNo" jdbcType="INTEGER" />
+    <result column="field_no" property="fieldNo" jdbcType="VARCHAR" />
+    <result column="crop_no" property="cropNo" jdbcType="VARCHAR" />
+    <result column="task_no" property="taskNo" jdbcType="VARCHAR" />
+    <result column="variables" property="variables" jdbcType="VARCHAR" />
+    <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    record_no, field_no, crop_no, task_no, variables, finish_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_field_task_record
+    where record_no = #{recordNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_field_task_record
+    where record_no = #{recordNo,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.szty.bean.FieldTaskRecord" >
+    insert into t_field_task_record (record_no, field_no, crop_no, 
+      task_no, variables, finish_time
+      )
+    values (#{recordNo,jdbcType=INTEGER}, #{fieldNo,jdbcType=VARCHAR}, #{cropNo,jdbcType=VARCHAR}, 
+      #{taskNo,jdbcType=VARCHAR}, #{variables,jdbcType=VARCHAR}, #{finishTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.szty.bean.FieldTaskRecord" >
+    insert into t_field_task_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recordNo != null" >
+        record_no,
+      </if>
+      <if test="fieldNo != null" >
+        field_no,
+      </if>
+      <if test="cropNo != null" >
+        crop_no,
+      </if>
+      <if test="taskNo != null" >
+        task_no,
+      </if>
+      <if test="variables != null" >
+        variables,
+      </if>
+      <if test="finishTime != null" >
+        finish_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recordNo != null" >
+        #{recordNo,jdbcType=INTEGER},
+      </if>
+      <if test="fieldNo != null" >
+        #{fieldNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cropNo != null" >
+        #{cropNo,jdbcType=VARCHAR},
+      </if>
+      <if test="taskNo != null" >
+        #{taskNo,jdbcType=VARCHAR},
+      </if>
+      <if test="variables != null" >
+        #{variables,jdbcType=VARCHAR},
+      </if>
+      <if test="finishTime != null" >
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.szty.bean.FieldTaskRecord" >
+    update t_field_task_record
+    <set >
+      <if test="fieldNo != null" >
+        field_no = #{fieldNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cropNo != null" >
+        crop_no = #{cropNo,jdbcType=VARCHAR},
+      </if>
+      <if test="taskNo != null" >
+        task_no = #{taskNo,jdbcType=VARCHAR},
+      </if>
+      <if test="variables != null" >
+        variables = #{variables,jdbcType=VARCHAR},
+      </if>
+      <if test="finishTime != null" >
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where record_no = #{recordNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.szty.bean.FieldTaskRecord" >
+    update t_field_task_record
+    set field_no = #{fieldNo,jdbcType=VARCHAR},
+      crop_no = #{cropNo,jdbcType=VARCHAR},
+      task_no = #{taskNo,jdbcType=VARCHAR},
+      variables = #{variables,jdbcType=VARCHAR},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP}
+    where record_no = #{recordNo,jdbcType=INTEGER}
+  </update>
+</mapper>
