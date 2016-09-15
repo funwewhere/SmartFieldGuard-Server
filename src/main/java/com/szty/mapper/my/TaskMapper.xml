@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szty.mapper.my.TaskMapper">
+
+	<select id="getFieldRecords" parameterType="String" resultType="com.szty.bean.my.VoFieldRecord">
+		SELECT
+			record_no recordNo,
+			field_no fieldNo,
+			a.task_no taskNo,
+			a.crop_no cropNo,
+			task_name taskName,
+			IFNULL(`variables`,task_formula) taskFormula,
+			last_task lastTask,
+			task_type taskType,
+			period_no periodNo,
+			attention,
+			finish_time finishTime
+		FROM t_field_task_record a
+		LEFT JOIN t_task_info b ON a.task_no = b.task_no
+		WHERE a.field_no = #{fieldNo}
+		ORDER BY finish_time DESC
+	</select>
+	
+</mapper>

@@ -7,5 +7,6 @@ package com.szty.enums;
  */
 public enum TaskType {
 	Everyday,//日常任务
-	Temporary//临时任务
+	Temporary,//临时任务
+	Start//开始任务标记
 }

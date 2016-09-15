@@ -44,6 +44,8 @@ public class PushInformServiceImpl implements PushInformService {
 	
 	private HashMap<String, Inform> informMap;
 	
+	private Timer timer;
+	
 	private static Logger log = Logger.getLogger(PushInformServiceImpl.class);
 	
 	{
@@ -52,7 +54,8 @@ public class PushInformServiceImpl implements PushInformService {
 	
 	public PushInformServiceImpl() {
 		//每30秒清除一次map里失败的推送
-		new Timer().schedule(new TimerTask() {
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
 				try {
