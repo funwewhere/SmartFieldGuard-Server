@@ -1,9 +1,12 @@
 package com.szty.service;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.szty.bean.UserInfo;
 import com.szty.enums.FileTpye;
+import com.szty.enums.UserRole;
 import com.szty.util.PageUtil;
 
 public interface UserService {
@@ -17,7 +20,7 @@ public interface UserService {
 
 	public String register(UserInfo userInfo) throws Exception;
 
-	public PageUtil<UserInfo> getUserList(int pageIndex, int pageCount) throws Exception;
+	public List<UserInfo> getUserList(UserRole role, String cropNo) throws Exception;
 
 	public void lock(String userId) throws Exception;
 

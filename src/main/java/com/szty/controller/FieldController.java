@@ -19,6 +19,8 @@ import com.szty.bean.my.VoFieldData;
 import com.szty.bean.my.VoUserInfo;
 import com.szty.service.FieldService;
 
+import net.sf.json.JSONObject;
+
 @Controller
 @RequestMapping("/field")
 public class FieldController {
@@ -64,6 +66,15 @@ public class FieldController {
 		criteria.setUserId(currentUser.getUserId());
 		List<VoFieldData> fieldDatas = fieldService.analyzeHistoryData(criteria);
 		map.put("fieldDatas", fieldDatas);
+		return map;
+	}
+	
+	@RequiresAuthentication
+	@RequestMapping(value="/cropRecord",produces="application/json;charset=utf-8")
+	public @ResponseBody Map<String, Object> historyCrop(String fieldNo, HttpServletRequest request) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		JSONObject jsonObject = JSONObject.fromObject("{\"sun\":2353,\"water\":7524,\"T\":24,\"niaoSu\":95,\"puGai\":157,\"liuSuanJia\":103}");
+		map.put("cropRecord", jsonObject);
 		return map;
 	}
 	

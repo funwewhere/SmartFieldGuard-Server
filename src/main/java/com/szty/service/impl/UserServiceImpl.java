@@ -169,16 +169,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public PageUtil<UserInfo> getUserList(int pageIndex, int pageCount)
+	public List<UserInfo> getUserList(UserRole role, String cropNo)
 			throws Exception {
 		int count = userMapper.selectUserCount();
-		List<UserInfo> users = new ArrayList<UserInfo>();
-		PageUtil<UserInfo> page = new PageUtil<UserInfo>(pageIndex, count, pageCount);
-		if (count >0 ) {
-			users.addAll(userMapper.selectUserInfo(page.getDataStart(), pageCount));
-		}
-		page.setList(users);
-		return page;
+		List<UserInfo> users = userMapper.selectUserInfo(role, cropNo);
+		return users;
 	}
 
 	@Override
@@ -205,12 +200,25 @@ public class UserServiceImpl implements UserService {
 		if (files == null || files.length == 0) {
 			return null;
 		}
-		
-		String savePath = fileUtil.saveFileAndMini(fileType, files[0], files[1], userId);
-		UserInfo userInfo = userInfoMapper.selectByPrimaryKey(userId);
-		userInfo.setHeadImage(savePath);
-		userInfoMapper.updateByPrimaryKeySelective(userInfo);
-		
+		if (files.length <1) {
+			return null;
+		}
+		String savePath = null;
+		switch (fileType) {
+			case UserHead:
+				if (files.length <2) {
+					return null;
+				}
+				savePath = fileUtil.saveFileAndMini(fileType, files[0], files[1], userId);
+				UserInfo userInfo = userInfoMapper.selectByPrimaryKey(userId);
+				userInfo.setHeadImage(savePath);
+				userInfoMapper.updateByPrimaryKeySelective(userInfo);
+				break;
+			case CropRecord:
+				savePath = fileUtil.saveFile(fileType, files[0], null);
+			default:
+				break;
+		}
 		return savePath;
 	}
 

@@ -7,5 +7,6 @@ package com.szty.enums;
  */
 public enum FileTpye {
 	PostImage,
-	UserHead
+	UserHead,
+	CropRecord
 }

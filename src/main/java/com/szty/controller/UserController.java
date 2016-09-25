@@ -1,6 +1,7 @@
 package com.szty.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.szty.bean.UserInfo;
 import com.szty.bean.my.VoUserInfo;
 import com.szty.enums.FileTpye;
+import com.szty.enums.UserRole;
 import com.szty.exception.CustomException;
 import com.szty.service.UserService;
 import com.szty.util.PageUtil;
@@ -90,16 +92,16 @@ public class UserController {
 	public @ResponseBody Map<String,Object> upload(FileTpye fileType, @RequestParam("file") MultipartFile[] files, HttpServletRequest request) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
 		VoUserInfo currentUser = (VoUserInfo) request.getSession().getAttribute("currentUser");
-		userService.uploadFile(fileType, files, currentUser.getUserId());
+		String imageUrl = userService.uploadFile(fileType, files, currentUser.getUserId());
+		map.put("imageUrl", imageUrl);
 		return map;
 	}
 	
-	@RequiresRoles("VIPMember")
 	@RequestMapping(value="/list",produces="application/json;charset=utf-8")
-	public @ResponseBody Map<String,Object> getList(int pageIndex, int pageCount, HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public @ResponseBody Map<String,Object> getList(UserRole role, String cropNo, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
-		PageUtil<UserInfo> page = userService.getUserList(pageIndex, pageCount);
-		map.put("page", page);
+		List<UserInfo> userList = userService.getUserList(role, cropNo);
+		map.put("userList", userList);
 		return map;
 	}
 	

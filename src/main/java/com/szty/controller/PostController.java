@@ -22,6 +22,7 @@ import com.szty.bean.my.VoReply;
 import com.szty.bean.my.VoUserInfo;
 import com.szty.service.PostService;
 import com.szty.service.PushInformService;
+import com.szty.socket.inform.NewExpertAskFactory;
 import com.szty.socket.inform.NewReplyFactory;
 import com.szty.util.PageUtil;
 
@@ -38,6 +39,9 @@ public class PostController {
 	@Autowired
 	private NewReplyFactory newReplyFactory;
 	
+	@Autowired
+	private NewExpertAskFactory newExpertAskFactory;
+	
 	@RequiresAuthentication
 	@RequestMapping(value="/publish",produces="application/json;charset=utf-8", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> publish(PostInfo postInfo, @RequestParam("file") MultipartFile[] files,HttpServletRequest request) throws Exception {
@@ -45,6 +49,27 @@ public class PostController {
 		VoUserInfo currentUser = (VoUserInfo) request.getSession().getAttribute("currentUser");
 		postInfo.setUserId(currentUser.getUserId());
 		String post = postService.publish(postInfo, files);
+		map.put("postInfo", post);
+		return map;
+	}
+	
+	@RequiresAuthentication
+	@RequestMapping(value="/ask",produces="application/json;charset=utf-8", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> ask(PostInfo postInfo, String expertId, @RequestParam("file") MultipartFile[] files,HttpServletRequest request) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		VoUserInfo currentUser = (VoUserInfo) request.getSession().getAttribute("currentUser");
+		postInfo.setUserId(currentUser.getUserId());
+		String post = postService.publish(postInfo, files);
+		ReplyInfo replyInfo = new ReplyInfo();
+		replyInfo.setPostNo(postInfo.getPostNo());
+		replyInfo.setUserId(expertId);
+		replyInfo.setContent("您的消息已收到~请耐心等待回复~");
+		if(postService.reply(replyInfo, null)){
+			newReplyFactory.init(replyInfo);
+			pushInformService.pushToUsers(newReplyFactory);
+		}
+		newExpertAskFactory.init(postInfo, expertId);
+		pushInformService.pushToUsers(newExpertAskFactory);
 		map.put("postInfo", post);
 		return map;
 	}
@@ -79,14 +104,15 @@ public class PostController {
 	
 	@RequiresAuthentication
 	@RequestMapping(value="/reply",produces="application/json;charset=utf-8", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> reply(ReplyInfo replyInfo/*, @RequestParam("file") MultipartFile[] iamges*/, HttpServletRequest request) throws Exception {
+	public @ResponseBody Map<String, Object> reply(ReplyInfo replyInfo, @RequestParam("file") MultipartFile[] images, HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		VoUserInfo currentUser = (VoUserInfo) request.getSession().getAttribute("currentUser");
 		replyInfo.setUserId(currentUser.getUserId());
-		if(postService.reply(replyInfo, null)){
+		if(postService.reply(replyInfo, images)){
 			newReplyFactory.init(replyInfo);
 			pushInformService.pushToUsers(newReplyFactory);
 			map.put("replyInfo", replyInfo.getPostNo() + "|" + replyInfo.getReplySn() + "|" + replyInfo.getReplyDate().getTime());
+			map.put("imageUrls", replyInfo.getImages());
 		}
 		return map;
 	}

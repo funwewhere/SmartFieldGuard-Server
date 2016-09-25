@@ -25,6 +25,7 @@ import com.szty.service.PushInformService;
 import com.szty.socket.handler.SocketHandler;
 import com.szty.socket.inform.AbstractInformFactory;
 import com.szty.socket.inform.Inform;
+import com.szty.socket.inform.NewExpertAskFactory;
 import com.szty.socket.inform.NewReplyFactory;
 
 @Service
@@ -41,6 +42,9 @@ public class PushInformServiceImpl implements PushInformService {
 	
 	@Autowired
 	private NewReplyFactory newReplyFactory;
+	
+	@Autowired
+	private NewExpertAskFactory newExpertAskFactory;
 	
 	private HashMap<String, Inform> informMap;
 	
@@ -141,6 +145,15 @@ public class PushInformServiceImpl implements PushInformService {
 			//将第一条最大的时间戳设成key
 			data.put("key", userInforms.get(0).getCreateDate().getTime());
 			data.put("type", InformType.NewReply);
+			socketHandler.sendMessage("user_"+userId, data);
+		}
+		//获取数据库中所有关于该用户未发出的通知
+		userInforms = informMapper.getUserInforms(userId, InformType.NewExpertAsk);
+		if (userInforms != null && !userInforms.isEmpty()) {
+			Map<String, Object> data = newExpertAskFactory.createData(userInforms);
+			//将第一条最大的时间戳设成key
+			data.put("key", userInforms.get(0).getCreateDate().getTime());
+			data.put("type", InformType.NewExpertAsk);
 			socketHandler.sendMessage("user_"+userId, data);
 		}
 	}

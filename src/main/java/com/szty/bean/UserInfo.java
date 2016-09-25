@@ -33,6 +33,8 @@ public class UserInfo {
 
     private Date lastActiveDate;
 
+    private String cropNo;
+
     public String getUserId() {
         return userId;
     }
@@ -143,5 +145,13 @@ public class UserInfo {
 
     public void setLastActiveDate(Date lastActiveDate) {
         this.lastActiveDate = lastActiveDate;
+    }
+
+    public String getCropNo() {
+        return cropNo;
+    }
+
+    public void setCropNo(String cropNo) {
+        this.cropNo = cropNo == null ? null : cropNo.trim();
     }
 }

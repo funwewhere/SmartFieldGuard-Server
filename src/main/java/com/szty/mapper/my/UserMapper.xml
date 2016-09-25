@@ -38,12 +38,13 @@
     	select
     		user_id userId,
     		username,
-    		password,
     		tel,
-    		status,
 			role,
-			register_date registerDate
-		from t_user_info where role = '0'
-		LIMIT #{start},#{pageCount}
+			head_image headImage
+		from t_user_info
+		<where>
+			<if test="role != null and role !=''">role = #{role}</if>
+			<if test="cropNo != null and cropNo !=''">and crop_no = #{cropNo}</if>
+		</where>
     </select>
 </mapper>

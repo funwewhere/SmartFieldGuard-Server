@@ -7,5 +7,6 @@ package com.szty.enums;
  */
 public enum InformType {
 	NewReply,//新回复
-	NewFieldData//新农田数据
+	NewFieldData,//新农田数据
+	NewExpertAsk//对专家的新提问
 }

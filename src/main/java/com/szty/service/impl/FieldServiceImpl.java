@@ -182,6 +182,9 @@ public class FieldServiceImpl implements FieldService {
 		calendar.add(timeField, -number);
 		criteria.setStartTime(calendar.getTime());
 		List<VoFieldData> fieldDatas = fieldMapper.getFieldHistoryDatas(criteria);
+		if (fieldDatas == null || fieldDatas.isEmpty()) {
+			return null;
+		}
 		int last = 0;
 		int index = 0;
 		List<VoFieldData> newfieldDatas = new ArrayList<VoFieldData>();

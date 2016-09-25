@@ -16,10 +16,11 @@
     <result column="token" property="token" jdbcType="VARCHAR" />
     <result column="create_token_date" property="createTokenDate" jdbcType="TIMESTAMP" />
     <result column="last_active_date" property="lastActiveDate" jdbcType="TIMESTAMP" />
+    <result column="crop_no" property="cropNo" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     user_id, username, tel, head_image, password, salt, birthday, role, status, register_date, 
-    check_code, token, create_token_date, last_active_date
+    check_code, token, create_token_date, last_active_date, crop_no
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -36,12 +37,14 @@
       head_image, password, salt, 
       birthday, role, status, 
       register_date, check_code, token, 
-      create_token_date, last_active_date)
+      create_token_date, last_active_date, crop_no
+      )
     values (#{userId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
       #{headImage,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
       #{birthday,jdbcType=DATE}, #{role,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
       #{registerDate,jdbcType=TIMESTAMP}, #{checkCode,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, 
-      #{createTokenDate,jdbcType=TIMESTAMP}, #{lastActiveDate,jdbcType=TIMESTAMP})
+      #{createTokenDate,jdbcType=TIMESTAMP}, #{lastActiveDate,jdbcType=TIMESTAMP}, #{cropNo,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.szty.bean.UserInfo" >
     insert into t_user_info
@@ -88,6 +91,9 @@
       <if test="lastActiveDate != null" >
         last_active_date,
       </if>
+      <if test="cropNo != null" >
+        crop_no,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -131,6 +137,9 @@
       </if>
       <if test="lastActiveDate != null" >
         #{lastActiveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cropNo != null" >
+        #{cropNo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -176,6 +185,9 @@
       <if test="lastActiveDate != null" >
         last_active_date = #{lastActiveDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="cropNo != null" >
+        crop_no = #{cropNo,jdbcType=VARCHAR},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=VARCHAR}
   </update>
@@ -193,7 +205,8 @@
       check_code = #{checkCode,jdbcType=VARCHAR},
       token = #{token,jdbcType=VARCHAR},
       create_token_date = #{createTokenDate,jdbcType=TIMESTAMP},
-      last_active_date = #{lastActiveDate,jdbcType=TIMESTAMP}
+      last_active_date = #{lastActiveDate,jdbcType=TIMESTAMP},
+      crop_no = #{cropNo,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=VARCHAR}
   </update>
 </mapper>

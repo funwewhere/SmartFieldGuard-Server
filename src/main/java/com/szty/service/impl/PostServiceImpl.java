@@ -19,6 +19,7 @@ import com.szty.bean.my.VoPostSimple;
 import com.szty.bean.my.VoReply;
 import com.szty.enums.FileTpye;
 import com.szty.enums.PostStatus;
+import com.szty.enums.PostType;
 import com.szty.enums.Table;
 import com.szty.mapper.PostInfoMapper;
 import com.szty.mapper.ReplyInfoMapper;
@@ -115,19 +116,22 @@ public class PostServiceImpl implements PostService {
 			return;
 		}
 		
-		ReplyInfo replyInfo = replyInfoMapper.selectByPrimaryKey(postNo, replySn);
-		if (replyInfo == null) {
-			log.info("[postNo:" + postNo + "][replySn:" + replySn + "] reply error");
-			return;
+		if (postInfo.getType() != PostType.Expert) {
+			ReplyInfo replyInfo = replyInfoMapper.selectByPrimaryKey(postNo, replySn);
+			if (replyInfo == null) {
+				log.info("[postNo:" + postNo + "][replySn:" + replySn + "] reply error");
+				return;
+			}
+			int num = replyMapper.updateReplyToBest(postNo, replySn);
+			if (num != 1) {
+				throw new Exception("update replySn fail");
+			}
+			postInfo.setBestReplyNo(replySn.toString());
 		}
-		int num = replyMapper.updateReplyToBest(postNo, replySn);
-		if (num != 1) {
-			throw new Exception("update replySn fail");
-		}
+		
 		postInfo.setStatus(PostStatus.Resolved);
-		postInfo.setBestReplyNo(replySn.toString());
-		num = postInfoMapper.updateByPrimaryKey(postInfo);
-		if (num != 1) {
+		int number = postInfoMapper.updateByPrimaryKey(postInfo);
+		if (number != 1) {
 			throw new Exception("update poststatus fail");
 		}
 	}
